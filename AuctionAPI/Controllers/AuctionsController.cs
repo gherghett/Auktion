@@ -107,7 +107,7 @@ namespace AuctionAPI.Controllers
         // POST: api/Auctions
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<AuctionFatDto>> PostAuction(CreateAuctionFormModel auctionDto)
+        public async Task<ActionResult<AuctionFatDto>> PostAuction(CreateAuctionDto auctionDto)
         {
             var result = await _auctionService.AddAuction(auctionDto);
 

@@ -244,6 +244,7 @@ public class MinaSidorController : Controller
     [HttpPost]
     public async Task<IActionResult> CreateAuction([FromForm] CreateAuctionFormModel model)
     {
+        //TODO this method does not work
         if(!ModelState.IsValid)
         {
             return View("NewAuction", model);
@@ -255,7 +256,12 @@ public class MinaSidorController : Controller
             throw new ArgumentNullException("No user found with id: " + userId);
         var user = userResult.Value!;
         // CreateAuctionDto o;
-        _auctionService.CreateAuctionAsync()
+        CreateAuctionDto createAuctionDto = CreateAuctionDto.Create(model);
+        var auction = await _auctionService.CreateAuctionAsync(createAuctionDto);
+        if(auction is null)
+            throw new Exception(".... somethings... wrong");
+
+        return RedirectToAction("Auction", "Home", new { id = auction.Id });
     }
 
     /// <summary>

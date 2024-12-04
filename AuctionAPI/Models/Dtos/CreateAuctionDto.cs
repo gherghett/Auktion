@@ -1,3 +1,5 @@
+using AuktionMVC.Models;
+
 namespace AuctionAPI.Models;
 public class CreateAuctionDto
 {
@@ -8,4 +10,9 @@ public class CreateAuctionDto
     public DateTime EndDate { get; set; }
     public decimal MinimumBidPrice { get; set; }
     public decimal MinimumSalePrice { get; set; }
+
+    public static CreateAuctionDto Create(CreateAuctionFormModel model)
+    {
+        throw new NotImplementedException();
+    }
 }
