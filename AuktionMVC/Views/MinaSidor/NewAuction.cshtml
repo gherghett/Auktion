@@ -1,0 +1,92 @@
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="mb-0">Skapa ny auktion</h3>
+                </div>
+                <div class="card-body">
+                    <form action="/MinaSidor/CreateAuction" method="post" enctype="multipart/form-data">
+                        <!-- Titel -->
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Titel</label>
+                            <input type="text" class="form-control" id="title" name="Title" required>
+                        </div>
+
+                        <!-- Beskrivning -->
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Beskrivning</label>
+                            <textarea class="form-control" id="description" name="Description" rows="4"
+                                required></textarea>
+                        </div>
+
+                        <!-- Categories Dropdown -->
+                        <div class="mb-3">
+                            <label for="categoryId" class="form-label">Kategori</label>
+                            <select class="form-control" id="categoryId" name="CategoryId" required>
+                                <option value="">Välj kategori</option>
+                                <option value="1">exemple</option>
+                                @* @foreach (var category in Model)
+                                {
+                                    <option value="@category.Id">@category.Name</option>
+                                } *@
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="tags" class="form-label">Taggar (valfritt)</label>
+                            <input type="text" class="form-control" id="tags" name="Tags"
+                                placeholder="Separera taggar med komma">
+                        </div>
+
+                        <!-- Bild -->
+                        <div class="mb-3">
+                            <label for="image" class="form-label">Bild</label>
+                            <input type="file" class="form-control" id="image" name="Image" accept="image/*" multiple required>
+                        </div>
+
+                        <!-- Priser -->
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="startingBid" class="form-label">Utropspris (SEK)</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" id="startingBid" name="StartingBid"
+                                        min="1" required>
+                                    <span class="input-group-text">kr</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="reservePrice" class="form-label">Reservationspris (SEK)</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" id="reservePrice" name="ReservePrice"
+                                        min="1" required>
+                                    <span class="input-group-text">kr</span>
+                                </div>
+                                <div class="form-text">Lägsta pris du är villig att sälja för</div>
+                            </div>
+                        </div>
+
+                        <!-- Tider -->
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <label for="startTime" class="form-label">Starttid</label>
+                                <input type="datetime-local" class="form-control" id="startTime" name="StartTime"
+                                    required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="endTime" class="form-label">Sluttid</label>
+                                <input type="datetime-local" class="form-control" id="endTime" name="EndTime" required>
+                            </div>
+                        </div>
+
+                        <!-- Förhandsgranska och Publicera knappar -->
+                        <div class="d-flex justify-content-between">
+                            <button type="button" class="btn btn-outline-secondary">Förhandsgranska</button>
+                            <button type="submit" class="btn btn-primary">Publicera auktion</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

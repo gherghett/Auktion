@@ -1,0 +1,187 @@
+@model AuktionMVC.Models.OtherProfilePageViewModel;
+<div class="container mt-4">
+    <!-- Profile Header -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="d-flex align-items-center">
+                <!-- Profile Image -->
+                <img src="https://picsum.photos/100" class="rounded-circle me-4" alt="Profile Picture">
+                
+                <!-- Profile Info -->
+                <div>
+                    <h2 class="mb-1">@Model.UserSummary.Username</h2>
+                    <partial name="_StarRating" model="new StarRatingViewModel {Rating = Model.UserSummary.Rating, Size = 2}"></partial>
+                    @* <div class="text-warning mb-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
+                            <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
+                        </svg>
+                        <span class="ms-2">4.0 (42 ratings)</span>
+                    </div> *@
+                    <div class="text-muted">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
+                            <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A31.493 31.493 0 0 1 8 14.58a31.481 31.481 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94zM8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10z"/>
+                            <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                        </svg>
+                        <span class="ms-1"></span>@Model.UserSummary.Address</span>
+                    </div>
+                    <div class="text-muted">Medlem sedan @Model.UserSummary.MemberSince.WordDateString()</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+  <div class="row mb-4">
+    <div class="col-md-3 mb-3">
+        <div class="card text-center h-100">
+            <div class="card-body pb-0">  <!-- Remove padding bottom -->
+                <div class="row">
+                    <div class="col-6 border-end">  <!-- Add right border -->
+                        <h3 class="card-title">@Model.Statistics.TotalPurchases</h3>
+                        <div class="text-muted mb-3">Köpta</div>
+                    </div>
+                    <div class="col-6">
+                        <h3 class="card-title">@Model.Statistics.TotalSales</h3>
+                        <div class="text-muted mb-3">Sålda</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card text-center h-100">
+            <div class="card-body">
+                <h3 class="card-title">@Model.Statistics.ActiveAuctions</h3>
+                <div class="text-muted">Active Auctions</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card text-center h-100">
+            <div class="card-body">
+                <h3 class="card-title">@Model.UserSummary.Rating</h3>
+                <div class="text-muted">Rating</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- Tabs -->
+    <ul class="nav nav-tabs mb-4" id="profileTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="active-tab" data-bs-toggle="tab" data-bs-target="#active" type="button" role="tab">
+                Activa Auktioner
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="completed-tab" data-bs-toggle="tab" data-bs-target="#completed" type="button" role="tab">
+                Försäljningar
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews" type="button" role="tab">
+                Reviews
+            </button>
+        </li>
+    </ul>
+
+    <!-- Tab Content -->
+    <div class="tab-content" id="profileTabsContent">
+        <!-- Active Auctions Tab -->
+        <div class="tab-pane fade show active" id="active" role="tabpanel">
+            <h2>Auktioner (@Model.ActiveAuctions.Count)</h2>
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                @foreach (var auction in Model.ActiveAuctions)
+                {
+                    <div class="col">
+                        <partial name="_AuctionSearchResult" model="auction" />
+                    </div>
+                }
+                @if (!Model.ActiveAuctions.Any())
+                {
+                    <div class="col-12 text-center text-muted">
+                        <p>Inga aktiva auktioner just nu.</p>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="tab-pane fade " id="completed" role="tabpanel">
+            <h2>Tidigare Försäljningar (@Model.CompletedSales.Count)</h2>
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                @foreach (var sale in Model.CompletedSales)
+                {
+                    <div class="col">
+                        <div class="card h-100">
+                            <img src="@sale.ImageUrl" class="card-img-top" alt="@sale.Title">
+                            <div class="card-body">
+                                <h5 class="card-title">@sale.Title</h5>
+                                <p class="card-text">@sale.Description</p>
+                                <p class="card-text">
+                                    <strong>Slutpris:</strong> @sale.FinalPrice.ToString("C")
+                                </p>
+                                <p class="card-text">
+                                    <small class="text-muted">
+                                        Såld: @sale.SaleDate.WordDateString()<br/>
+                                        Köpare: @sale.BuyerName
+                                    </small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                }
+                @if (!Model.CompletedSales.Any())
+                {
+                    <div class="col-12 text-center text-muted">
+                        <p>Inga avslutade försäljningar än.</p>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Reviews Tab -->
+        <div class="tab-pane fade" id="reviews" role="tabpanel">
+            <!-- Review Card -->
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="d-flex mb-3">
+                        <img src="https://picsum.photos/40" class="rounded-circle me-3" alt="Reviewer">
+                        <div>
+                            <h6 class="mb-0">Jill Johnson</h6>
+                            <small class="text-muted">2 days ago</small>
+                        </div>
+                    </div>
+                    <div class="text-warning mb-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                        </svg>
+                    </div>
+                    <p class="card-text">Grymt! Kommer krama xednna tomte igen!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,140 @@
+@model AuktionMVC.Models.AuctionManagementPageViewModel;
+<div class="container mt-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2>Mina Auktioner</h2>
+            <p class="text-muted mb-0">Hantera dina auktioner</p>
+        </div>
+        <a href="/MinaSidor/NewAuction" class="btn btn-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-plus-lg me-2" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                    d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z" />
+            </svg>
+            Skapa ny auktion
+        </a>
+    </div>
+
+    <!-- Stats Summary -->
+    <div class="row row-cols-1 row-cols-md-4 g-4 mb-4">
+        <div class="col">
+            <div class="card border-0 bg-light">
+                <div class="card-body">
+                    <h6 class="text-muted">Aktiva</h6>
+                    <h3>@Model.Stats.ActiveCount</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card border-0 bg-light">
+                <div class="card-body">
+                    <h6 class="text-muted">Väntande</h6>
+                    <h3>@Model.Stats.PendingCount</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card border-0 bg-light">
+                <div class="card-body">
+                    <h6 class="text-muted">Avslutade</h6>
+                    <h3>@Model.Stats.CompletedCount</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card border-0 bg-light">
+                <div class="card-body">
+                    <h6 class="text-muted">Totalt värde</h6>
+                    <h3>@Model.Stats.TotalValue kr</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabs -->
+    <ul class="nav nav-tabs mb-4" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#active" type="button">
+                Aktiva <span
+                    class="badge @(Model.Stats.ActiveCount > 0 ? "bg-primary" : "") ms-2">@Model.Stats.ActiveCount</span>
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#pending" type="button">
+                Väntande <span
+                    class="badge @(Model.Stats.PendingCount > 0 ? "bg-secondary" : "") ms-2">@Model.Stats.PendingCount</span>
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#completed" type="button">
+                Avslutade <span
+                    class="badge @(Model.Stats.CompletedCount > 0 ? "bg-secondary" : "") ms-2">@Model.Stats.CompletedCount</span>
+            </button>
+        </li>
+    </ul>
+
+    <!-- Tab Content -->
+    <div class="tab-content">
+
+        <!-- Active Auctions -->
+        <div class="tab-pane fade show active" id="active">
+            <!-- Auction Item -->
+            <h2>Aktiva (@Model.Stats.ActiveCount)</h2>
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                @foreach (var auction in Model.ActiveAuctions)
+                {
+                    <div class="col">
+                        <partial name="_AuctionSearchResult" model="auction" />
+                    </div>
+                }
+                @if (Model.Stats.ActiveCount == 0)
+                {
+                    <div class="col-12 text-center text-muted">
+                        <p>Inga aktiva auktioner just nu.</p>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Pending Auctions -->
+        <div class="tab-pane fade" id="pending">
+            <!-- Auction Item -->
+            <h2>Väntande (@Model.Stats.PendingCount)</h2>
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                @foreach (var auction in Model.PendingAuctions)
+                {
+                    <div class="col">
+                        <partial name="_AuctionSearchResult" model="auction" />
+                    </div>
+                }
+                @if (Model.Stats.PendingCount == 0)
+                {
+                    <div class="col-12 text-center text-muted">
+                        <p>Inga inaktiva auktioner just nu.</p>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Completed Auctions -->
+        <div class="tab-pane fade" id="completed">
+            <!-- Auction Item -->
+            <h2>Avslutade (@Model.Stats.CompletedCount)</h2>
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                @foreach (var sale in Model.CompletedSales)
+                {
+                    <div class="col">
+                        <partial name="_SaleSummaryCard" model="sale" />
+                    </div>
+                }
+                @if (Model.Stats.CompletedCount == 0)
+                {
+                    <div class="col-12 text-center text-muted">
+                        <p>Inga avsluta auktioner änn.</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

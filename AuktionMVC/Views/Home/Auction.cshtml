@@ -1,0 +1,153 @@
+@model AuktionMVC.Models.AuctionPageViewModel;
+@{
+    var auction = Model.Auction;
+    int rating = Model.Seller.Rating;
+    int userId = Model.CurrentUserId;
+}
+<div class="container mt-4">
+    <div class="row">
+        <!-- Left column - Image -->
+        <div class="col-md-6 mb-4">
+            <img src="@Model.Auction.ImageUrl" class="img-fluid rounded" alt="Product Image">
+        </div>
+
+        <!-- Right column - Auction Info -->
+        <div class="col-md-6">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+                <h2>@auction.Title</h2>
+                @if (Model.Auction.IsHearted)
+                {
+                    <button class="btn btn-danger btn-sm" onclick="toggleHeart(@auction.Id, this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-heart-fill" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
+                        </svg>
+                        <span class="ms-1">Sparad</span>
+                    </button>
+                }
+                else
+                {
+                    <button class="btn btn-outline-danger btn-sm" onclick="toggleHeart(@auction.Id, this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-heart" viewBox="0 0 16 16">
+                            <path
+                                d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+                        </svg>
+                        <span class="ms-1">Spara</span>
+                    </button>
+                }
+            </div>
+
+            <!-- Time remaining and Tags -->
+            <div class="d-flex justify-content-between align-items-start mb-4">
+                @if (!Model.Auction.Started)
+                {
+                    <!-- Time until start -->
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="bg-light rounded p-3 text-center">
+                            <h6 class="text-muted mb-1">Budgivningen startar om</h6>
+                            <h4 class="mb-0">@Model.Auction.TimeUntilStart.RemainingString() </h4>
+                        </div>
+                    </div>
+                }
+                <!-- Time remaining -->
+                <div class="bg-light rounded p-3 text-center me-3">
+                    <h6 class="text-muted mb-1">Budgivningen avslutas om</h6>
+                    <h4 class="mb-0">@Model.Auction.TimeRemaining.RemainingString()</h4>
+                </div>
+
+                <!-- Tags -->
+                <div class="tags">
+                    @foreach (var tag in Model.Auction.Tags)
+                    {
+                        <span class="badge bg-secondary me-1">@tag</span>
+                    }
+                </div>
+            </div>
+
+            <!-- Current bid -->
+            <div class="mb-4">
+                @if (Model.Auction.HasBids)
+                {
+                    <h6 class="text-muted">Ledande Bud</h6>
+                    @if (Model.LeadingBuyerId != 0 && Model.LeadingBuyerId == userId)
+                    {
+                        <div class="badge bg-success mb-2">Du leder! 🎉</div>
+                    }
+                    <h2 class="mb-3">@(auction.CurrentBid)kr</h2>
+                }
+                else
+                {
+                    <h6 class="text-muted">Startpris</h6>
+                    <h2 class="mb-3">@(auction.MinimumBidPrice)kr</h2>
+                }
+                @if (Model.Auction.Started)
+                {
+                    <!-- place Bid form --->
+                    <form method="POST" action="/MinaSidor/NewBid" class="bid-form mb-4">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="AuctionId" value="@Model.Auction.Id" />
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">kr</span>
+                            <input type="number" name="BidAmount" class="form-control form-control-lg"
+                                placeholder="Ditt bud" min="@(Model.LeadingBuyerId == 0 ? 1 : Model.Auction.CurrentBid + 1)"
+                                step="1" max="99999999" required>
+                            <button type="submit" class="btn btn-primary btn-lg"><i>Lägg ditt bud</i></button>
+                        </div>
+                        <small class="text-muted">Lägsta bud: @(Model.LeadingBuyerId == 0 ? 1 : Model.Auction.CurrentBid +
+                        1) kr</small>
+                    </form>
+                }
+            </div>
+
+            <!-- Owner info card -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h6 class="card-subtitle mb-2 text-muted">Säljare</h6>
+                    <div class="d-flex align-items-center">
+                        <img src="@Model.Seller.AvatarUrl" class="rounded-circle me-3" alt="Säljare Avatar">
+                        <div>
+                            <h5 class="mb-1">@Model.Seller.Name</h5>
+                            <div class="text-warning">
+                                <partial name="_StarRating"
+                                    model="new StarRatingViewModel{Rating=@Model.Seller.Rating, Size=2}"></partial>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Description -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <h4>Beskriving</h4>
+            <div class="bg-light p-4 rounded">
+                <p>@Model.Auction.Description @{
+                        //TODO hur blir description html, med rabrytning och så?
+                    }</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bid History -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4>Budhistorik</h4>
+                <button class="btn btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#bidHistory">
+                    Visa alla bud
+                </button>
+            </div>
+
+            <div class="collapse" id="bidHistory">
+                @foreach (var bid in Model.BidHistory)
+                {
+                    <partial name="_BidHistoryItem" model="bid" />
+                }
+            </div>
+        </div>
+    </div>
+</div>

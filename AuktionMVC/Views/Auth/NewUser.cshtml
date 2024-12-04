@@ -1,0 +1,106 @@
+<div class="min-vh-100 py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <!-- Card with enhanced styling -->
+                <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                    <!-- Card Header -->
+                    <div class="card-header bg-primary text-white text-center py-4 border-0">
+                        <h3 class="mb-2">Super Auction</h3>
+                        <p class="mb-0 text-white-50">Fyll i dina uppgifter</p>
+                    </div>
+
+                    <!-- Card Body -->
+                    <div class="card-body p-4 p-md-5">
+                        <form action="CreateAccount" method="post">
+                            <!-- Username Field -->
+                            <div class="mb-4">
+                                <label for="name" class="form-label">Användarnamn</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="bi bi-person"></i>
+                                    </span>
+                                    <input type="text" class="form-control border-start-0" id="name" name="Name"
+                                        placeholder="Skriv ditt användarnamn" required>
+                                </div>
+                            </div>
+
+                            <!-- Email Field -->
+                            <div class="mb-4">
+                                <label for="email" class="form-label">Email</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="bi bi-envelope"></i>
+                                    </span>
+                                    <input type="email" class="form-control border-start-0" id="email" name="Email"
+                                        placeholder="Skriv din email" required>
+                                </div>
+                            </div>
+
+                            <!-- Password Field -->
+                            <div class="mb-4">
+                                <label for="password" class="form-label">Lösenord</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="bi bi-lock"></i>
+                                    </span>
+                                    <input type="password" class="form-control border-start-0" id="password"
+                                        name="Password" placeholder="Skriv ditt lösenord" required>
+                                    <button class="btn btn-outline-secondary border-start-0" type="button"
+                                        onclick="togglePassword()">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                </div>
+                                <small class="text-muted">Sparas i plain-text på vår gratis-server</small>
+                            </div>
+
+                            <!-- Address Field -->
+                            <div class="mb-4">
+                                <label for="address" class="form-label">Address</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="bi bi-house"></i>
+                                    </span>
+                                    <textarea class="form-control border-start-0" id="address" name="Address" rows="3"
+                                        placeholder="Skriv din address" required></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <button type="submit" class="btn btn-primary w-100 py-2 mb-4 text-uppercase fw-bold">
+                                Skapa konto
+                            </button>
+
+                            <!-- Login Link -->
+                            <div class="text-center">
+                                <span class="text-muted">Har du redan ett konto? </span>
+                                <a href="/Auth/Login" class="text-primary text-decoration-none">
+                                    Logga in
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const icon = event.currentTarget.querySelector('i');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('bi-eye');
+                icon.classList.add('bi-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('bi-eye-slash');
+                icon.classList.add('bi-eye');
+            }
+        }
+    </script>
+}
