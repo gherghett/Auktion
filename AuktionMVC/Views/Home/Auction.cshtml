@@ -91,12 +91,11 @@
                         <div class="input-group mb-3">
                             <span class="input-group-text">kr</span>
                             <input type="number" name="BidAmount" class="form-control form-control-lg"
-                                placeholder="Ditt bud" min="@(Model.LeadingBuyerId == 0 ? 1 : Model.Auction.CurrentBid + 1)"
+                                placeholder="Ditt bud" min="@(Model.LeadingBuyerId == 0 ? 1 : (Model.Auction.CurrentBid + 1).ToString("F1", System.Globalization.CultureInfo.InvariantCulture))"
                                 step="1" max="99999999" required>
                             <button type="submit" class="btn btn-primary btn-lg"><i>Lägg ditt bud</i></button>
                         </div>
-                        <small class="text-muted">Lägsta bud: @(Model.LeadingBuyerId == 0 ? 1 : Model.Auction.CurrentBid +
-                        1) kr</small>
+                        <small class="text-muted">Lägsta bud: @(Model.LeadingBuyerId == 0 ? 1 : (Model.Auction.CurrentBid + 1).ToString("F1", System.Globalization.CultureInfo.InvariantCulture)) kr</small>
                     </form>
                 }
             </div>
