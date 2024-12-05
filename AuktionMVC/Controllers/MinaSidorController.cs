@@ -270,31 +270,27 @@ public class MinaSidorController : Controller
     /// Returns BadRequest if model validation fails
     /// </summary>
     /// <param name="model">Bid details including auction ID and bid amount</param>
-    // [HttpPost]
-    // [ValidateAntiForgeryToken]
-    // public async Task<IActionResult> NewBid([FromForm] BidInputModel model)
-    // {
-    //     int userId = User.GetUserId();
-    //     User? user = _repo.GetUserById(userId);
-    //     if(user == null)
-    //         throw new Exception("Very strang error");
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> NewBid([FromForm] NewBidFormModel model)
+    {
+        int userId = User.GetUserId();
+        var userResult = await _userService.GetUserById(userId);
+        if(userResult.IsFailure)
+            throw new ArgumentNullException("No user found with id: " + userId);
+        
 
-    //     if(!ModelState.IsValid)
-    //     {
-    //         return BadRequest(ModelState);
-    //     }
+        if(!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
 
-    //     try
-    //     {
-    //         _auctionService.PlaceBid(model.AuctionId, userId, model.BidAmount);
-    //     }
-    //     catch(Exception ex)
-    //     {
-    //         throw ex;
-    //     }
+        Result<AuctionFatDto> result = await _auctionService.PlaceBidAsync(model.AuctionId, userId, model.BidAmount);
+        if(result.IsFailure)
+            throw new Exception("Kunde inte göra bud: "+ string.Join(", ",result.Errors)); //TODO errorhandle
 
-    //     return RedirectToAction("Auction", "Home", new { id = model.AuctionId });
-    // }
+        return RedirectToAction("Auction", "Home", new { id = model.AuctionId });
+    }
 
    /// <summary>
     /// GET: /MinaSidor/AddHeart/{auctionId}

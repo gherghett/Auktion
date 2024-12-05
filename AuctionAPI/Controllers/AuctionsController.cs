@@ -121,8 +121,8 @@ namespace AuctionAPI.Controllers
 
         // POST: api/Auctions/PlaceBid/{id}
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost("PlaceBid")]
-        public async Task<ActionResult<AuctionFatDto>> PlaceBid(int id, BidSkinnyDto bidDto)
+        [HttpPost("PlaceBid/{id}")]
+        public async Task<ActionResult<AuctionFatDto>> PlaceBid(int id, [FromBody] CreateBidDto bidDto)
         {
 
             var result = _auctionService.PlaceBid(id,bidDto.UserId, bidDto.BidAmount);

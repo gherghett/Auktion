@@ -118,18 +118,28 @@ namespace AuktionMVC.Services
 
 
         // Place a bid on an auction
-        public async Task<AuctionFatDto?> PlaceBidAsync(int auctionId, BidSkinnyDto bidDto)
+        public async Task<Result<AuctionFatDto>> PlaceBidAsync(int auctionId, int userId, decimal amount)
         {
-            var response = await _httpClient.PostAsJsonAsync($"{apiUrl}PlaceBid?id={auctionId}", bidDto);
-            if (response.IsSuccessStatusCode)
-            {
-                return await response.Content.ReadFromJsonAsync<AuctionFatDto>();
-            }
-            else
+            var dto = new CreateBidDto{
+                UserId = userId,
+                BidAmount = amount,
+                AuctionId = auctionId
+            };
+            var json = System.Text.Json.JsonSerializer.Serialize(dto);
+            Console.WriteLine($"Request Body: {json}");
+            var response = await _httpClient.PostAsJsonAsync($"{apiUrl}PlaceBid/{auctionId}", dto);
+            if (!response.IsSuccessStatusCode)
             {
                 Console.WriteLine($"Failed to place bid. Status Code: {response.StatusCode}");
-                return null;
+                Console.WriteLine(response.Content);
+                return Result.Failure<AuctionFatDto>("Failed to place the bid....");
             }
+
+            var result = await response.Content.ReadFromJsonAsync<AuctionFatDto>();
+            if(result is null)
+                return Result.Failure<AuctionFatDto>("Could not parse bid");
+
+            return result;
         }
 
         // Update an existing auction
@@ -161,7 +171,6 @@ namespace AuktionMVC.Services
                 return false;
             }
         }
-
 
     }
 }
