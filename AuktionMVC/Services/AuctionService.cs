@@ -3,6 +3,8 @@ using System.Net.Http.Json;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AuctionAPI.Models;
+using AuktionMVC.Models;
+using System.Text.Json;
 
 namespace AuktionMVC.Services
 {
@@ -95,8 +97,9 @@ namespace AuktionMVC.Services
         }
 
         // Create a new auction
-        public async Task<AuctionFatDto?> CreateAuctionAsync(CreateAuctionDto auctionDto)
+        public async Task<AuctionFatDto?> CreateAuctionAsync(CreateAuctionFormModel formModel)
         {
+            var auctionDto = CreateAuctionDto.CreateFromForm(formModel);
             var response = await _httpClient.PostAsJsonAsync(apiUrl, auctionDto);
             if (response.IsSuccessStatusCode)
             {
@@ -105,9 +108,14 @@ namespace AuktionMVC.Services
             else
             {
                 Console.WriteLine($"Failed to create auction. Status Code: {response.StatusCode}");
+                Console.WriteLine($"Request URL: {apiUrl}");
+                Console.WriteLine($"Request Body: {JsonSerializer.Serialize(auctionDto)}");
+                Console.WriteLine($"Response Status: {response.StatusCode}");
+                Console.WriteLine($"Response Body: {await response.Content.ReadAsStringAsync()}");
                 return null;
             }
         }
+
 
         // Place a bid on an auction
         public async Task<AuctionFatDto?> PlaceBidAsync(int auctionId, BidSkinnyDto bidDto)
