@@ -45,7 +45,7 @@ public class AuthController : Controller
             new ClaimsPrincipal(claimsIdentity),
             authProperties);
 
-        return RedirectToAction("TestAuth", "Auth");
+        return RedirectToAction("Index", "MinaSidor");
     }
 
     // [HttpPost]
