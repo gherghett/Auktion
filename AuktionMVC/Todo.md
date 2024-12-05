@@ -1,1 +1,2 @@
-- [ ] create view for "own auction"
+- [ ] create view for "own auction" in home controller auction route
+- [ ] redirect to where you tried to go when you were stopped by authentication
