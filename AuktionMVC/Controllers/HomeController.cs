@@ -35,7 +35,8 @@ public class HomeController : Controller
         
         // Fetch data from the API
         var result = await _auctionService.GetAuctionsAsync();
-
+        
+        ViewData["Title"] = $"Auktioner: Hitta och skapa ";
         // Pass the result to the View
         return View(result);
     }
@@ -52,6 +53,8 @@ public class HomeController : Controller
         AuctionFatDto auction = auctionResult.Value!;
 
         AuctionPageViewModel auctionViewModel = new AuctionPageViewModel(auction, userId);
+
+        ViewData["Title"] = $"{auctionViewModel.Auction.Title} Auktion";
 
         //active or pending auction
         if (!auction.HasEnded)
@@ -132,17 +135,20 @@ public class HomeController : Controller
                 .Select(s => SaleSummaryViewModel.Create(s, userId))
                 .ToList()
         };
+        ViewData["Title"] = $"Profil {viewModel.UserSummary.Username}";
         return View(viewModel);
     }
 
     public IActionResult Privacy()
     {
+        ViewData["Title"] = $"Privacy";
         return View();
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
+        ViewData["Title"] = $"Error";
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 }

@@ -54,6 +54,7 @@ public class MinaSidorController : Controller
 
         var model = MinaSidorViewModel.Create(user);
 
+        ViewData["Title"] = $"Mina Sidor";
         return View(model);
     }
 
@@ -90,6 +91,7 @@ public class MinaSidorController : Controller
             buys = salesResult.Value!;
         }
 
+        ViewData["Title"] = $"Mina Auktioner";
         var viewModel = new AuctionManagementPageViewModel(user, auctions, buys, sales);
         return View(viewModel);
     }
@@ -230,8 +232,11 @@ public class MinaSidorController : Controller
     /// GET: /MinaSidor/NewAuction
     /// Displays the form for creating a new auction
     /// </summary>
-    public IActionResult NewAuction() =>
-        View();
+    public IActionResult NewAuction()
+    {
+        ViewData["Title"] = $"Skapa ny auktion";
+        return View();
+    }
 
     /// <summary>
     /// POST: /MinaSidor/CreateAuction

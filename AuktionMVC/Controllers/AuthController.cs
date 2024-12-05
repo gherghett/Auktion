@@ -45,6 +45,7 @@ public class AuthController : Controller
             new ClaimsPrincipal(claimsIdentity),
             authProperties);
 
+        ViewData["Title"] = $"Logga in";
         return RedirectToAction("Index", "MinaSidor");
     }
 
