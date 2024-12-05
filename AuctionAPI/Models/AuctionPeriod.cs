@@ -1,11 +1,12 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace AuctionAPI.Models;
 
 public class AuctionPeriod 
 {
-    public DateTime StartDate { get; }
-    public DateTime EndDate { get; }
+    public DateTime StartDate { get; init;}
+    public DateTime EndDate { get; init;}
 
     private AuctionPeriod(DateTime startDate, DateTime endDate)
     {
